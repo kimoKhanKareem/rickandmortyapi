@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styled from "styled-components"
-// import fetch from "isomorphic-fetch"
+import fetch from "isomorphic-fetch"
 // import Image from "next/image"
 // import Link from 'next/link'
 
@@ -17,6 +17,22 @@ padding: 0;
   list-style-type: none;
   margin: 10px;
   padding: 0;
+  a{
+    .parentimg{
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
+      img{
+        transition: all .4s;
+        &:hover{
+          width: 310px;
+          transition: all .4s;
+          background-color: red;
+
+        }
+      }
+    }
+  }
 }
 
 }
@@ -50,21 +66,21 @@ export default function Home({ data }) {
           the rick and morty
         </p>
         <ul className='grid' >
-          {results.map(result => {
+          {data?.results?.map(result => {
             const { id, name, image } = result;
             return (
               <li key={id} className="cart">
-              <a href="">
-                <img src={image}  alt={`${name}`} />
-                <h3>
-                  {name}
-                </h3>
-              </a>
-            </li>
+                <a href="">
+                  <div className='parentimg'>
+                    <img src={image} alt={`${name}`} />
+                  </div>
+                  <h3>
+                    {name}
+                  </h3>
+                </a>
+              </li>
             )
           })}
-
-
         </ul>
       </MainStyled>
     </>
