@@ -24,7 +24,7 @@ const GridStyle = styled.div`
 `
 export const Card = ({ id, name, image }) => {
     return (
-        <Link href={`/rickAndMorty/${id}`}>
+        <Link href={`/rickMorty/${id}`}>
             <GridStyle>
                 <div className="cart">
                     <div className="parentimg">
