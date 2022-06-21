@@ -60,6 +60,7 @@ export default function Home({ results = [] }) {
         </p>
         <ul className='grid' >
           {results.map((resul) => (
+            //Card page
             <Card key={resul.id} {...resul} />
           ))}
         </ul>
