@@ -1,56 +1,49 @@
 import Head from 'next/head'
 import styled from "styled-components"
 import fetch from "isomorphic-fetch"
-// import Image from "next/image"
-// import Link from 'next/link'
+import { Card } from './rickMorty/Card'
 
 //styled components
 const MainStyled = styled.main`
 text-align: center;
-.grid{
+margin-top: 5%;
+ .grid{
 display: flex;
 align-items: center;
 justify-content: center;
 flex-wrap: wrap;
 padding: 0;
-.cart{
-  list-style-type: none;
-  margin: 10px;
-  padding: 0;
-  a{
-    .parentimg{
-      width: 300px;
-      height: 300px;
-      overflow: hidden;
-      img{
-        transition: all .4s;
-        &:hover{
-          width: 310px;
-          transition: all .4s;
-          background-color: red;
-
-        }
-      }
-    }
-  }
-}
-
-}
+ }
 `
-const defaultEndpoint = "https://rickandmortyapi.com/api/character"
+// const defaultEndpoint = "https://rickandmortyapi.com/api/character"
 export const getStaticProps = async () => {
-  const res = await fetch(defaultEndpoint);
+  const res = await fetch("https://rickandmortyapi.com/api/character");
   const data = await res.json();
-  return {
-    props: {
-      data
-    }
-  }
+  const results = data?.results?.map(
+    ({ id, name, status, species, location, image }) => ({
+      id,
+      name,
+      status,
+      species,
+      location: location.name,
+      image,
+    })
+  );
+  if (!results) return { props: { results: [] } };
+  return { props: { results } };
 };
 
-export default function Home({ data }) {
-  const { results = [] } = data;
-  console.log("res", results)
+export default function Home({ results = [] }) {
+  // const { results = [] } = data;
+  // const { info, results : defulteResults = [] } = data;
+  // const [resul, updateResul] = useState(results)
+  console.log("info", results)
+  // console.log("rdefulteResults", defulteResults)
+  // const [page, updatePage] = useState({
+  //   ...info,
+  //   current: defaultEndpoint
+  // });
+  // const {current} = page;
   return (
     <>
       <Head>
@@ -66,21 +59,9 @@ export default function Home({ data }) {
           the rick and morty
         </p>
         <ul className='grid' >
-          {data?.results?.map(result => {
-            const { id, name, image } = result;
-            return (
-              <li key={id} className="cart">
-                <a href="">
-                  <div className='parentimg'>
-                    <img src={image} alt={`${name}`} />
-                  </div>
-                  <h3>
-                    {name}
-                  </h3>
-                </a>
-              </li>
-            )
-          })}
+          {results.map((resul) => (
+            <Card key={resul.id} {...resul} />
+          ))}
         </ul>
       </MainStyled>
     </>
